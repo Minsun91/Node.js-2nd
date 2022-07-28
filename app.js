@@ -19,7 +19,7 @@ app.use(requestMiddleware); //위 화살표 함수를 requestMiddleware 변수�
 app.use("/", [commentRouter, postRouter]); //[commentRouter, userRouter] 등 여러 개 붙일 수 있다
 
 app.get("/", (req, res) => {
-    res.send("hello world");
+    res.send("로컬에서는 다 잘됩니다.");
 }); //router
 
 app.listen(port, () => {
