@@ -33,15 +33,20 @@ router.post("/comment/:postid", async (req, res) => {
 });
 
 //댓글 삭제
-router.delete("/comment/:_id", async (req, res) => {
-    const { _id } = req.params;
+router.delete("/comment/:postid", async (req, res) => {
+    const { postid } = req.params;
     const { password } = req.body;
 
+    console.log(password);
+
     const change = await Comments.findOne({
-        _id,
+        postid,
     });
+
+    console.log(change);
+
     if (password === change.password) {
-        await Comments.deleteOne({ _id });
+        await Comments.deleteOne({ postid });
         res.json({ message: "댓글이 삭제되었습니다." });
     } else {
         res.status(400).json({ message: "비밀번호가 맞지 않습니다." });
@@ -49,18 +54,16 @@ router.delete("/comment/:_id", async (req, res) => {
 });
 
 //댓글 수정
-router.put("/comment/:_id", async (req, res) => {
-    const { _id } = req.params;
+router.put("/comment/:postid", async (req, res) => {
+    const { postid } = req.params;
     const { password } = req.body;
     const { content } = req.body;
 
-    console.log(content);
-
     const change = await Comments.findOne({
-        _id,
+        postid: postid,
     });
     if (password === change.password) {
-        await Comments.updateOne({ _id }, { $set: { content } }); //commentid 있는 title, content를 바꾼다
+        await Comments.updateOne({ postid }, { $set: { content } }); //commentid 있는 title, content를 바꾼다
         res.json({ message: "댓글이 수정되었습니다." });
     } else {
         res.status(400).json({ message: "비밀번호가 맞지 않습니다." });
